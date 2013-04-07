@@ -2,6 +2,7 @@ from django.conf.urls import patterns, url
 from django.views.generic import DetailView, ListView
 from polls import views
 from polls.models import Poll, Choice
+from django.utils import timezone
 
 urlpatterns = patterns('',
     #url(r'^$', views.index, name='index'),
@@ -11,7 +12,8 @@ urlpatterns = patterns('',
     
     url(r'^$',
         ListView.as_view(
-            queryset=Poll.objects.order_by('-pub_date')[:5],
+            queryset=Poll.objects.filter(pub_date__lte=timezone.now) \
+                .order_by('-pub_date')[:5],
             context_object_name='latest_poll_list',
             template_name='polls/index.html'),
         name='index'),
