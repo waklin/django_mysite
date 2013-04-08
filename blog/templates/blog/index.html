@@ -1,0 +1,12 @@
+<head>
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'blog/style.css' %}"
+</head>
+
+{% if latest_article_list %}
+    {% for article in latest_article_list%}
+        <p class="title">{{ article.title }}</p>
+        <p class="detail">{{ article.detail }}</p>
+        <a href="{% url 'blog:comments' article.id %}">comments</a>({{ article.comment_set.count }})
+    {% endfor %}
+{% endif %}

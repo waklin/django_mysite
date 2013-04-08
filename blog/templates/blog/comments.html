@@ -1,0 +1,13 @@
+<h1>{{ article.title }}</h1>
+
+<ul>
+{% for comment in article.comment_set.all %}
+    <li>{{ comment.detail }}</li>
+{% endfor %}
+</ul>
+
+<form action="{% url 'blog:comment_submit' article.id%}" method="post">
+{% csrf_token %}
+<input type="textarea" name="detail"></input>
+<input type="submit" value="submit" />
+</form>
