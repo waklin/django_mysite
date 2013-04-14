@@ -11,3 +11,9 @@ def comment_submit(request, article_id):
     comment.detail = request.POST['detail']
     comment.save()
     return HttpResponseRedirect(reverse('blog:comments', kwargs={'pk':article_id}))
+
+def bootstrap(request):
+    return render(request, 'blog/bootstrap.html')
+
+def bs_flow(request):
+    return render(request, 'blog/bs_flow.html')
