@@ -4,6 +4,7 @@ from blog.models import Article, Comment
 from blog import views
 
 urlpatterns = patterns('',
+    url(r'^$', 'blog.views.index', name='index'),
     url(r'^$',  
         ListView.as_view(
             queryset=Article.objects.all(),
