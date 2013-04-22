@@ -10,75 +10,75 @@
 <script src="{% static 'blog/bootstrap/js/bootstrap.min.js' }%"></script>
 </head>
 <body style="background:gray">
-<div class="container">
-    <div class="row">
-        <div class="span8">
-        {% if article_list %}
-        {% for article in article_list%}
-            <div class="row">
-                <div class="span7 well">
-                    <h3>{{ article.title }}</h3>
-                    <p>{{ article.detail }}</p>
-                    <hr/>
-                    <div class="row">
-                        <div class="span3 text-left">
-                            <span>{{ article.pub_date }}</span>
-                        </div>
-                        <div class="span4 text-right">
-                            <a href="#">read(23)</a>
-                            <a href="{% url 'blog:comments' article.id %}">comment({{ article.comment_set.all.count }})</a>
+    <div class="container">
+        <div class="row">
+            <div class="span8">
+            {% if article_list %}
+            {% for article in article_list%}
+                <div class="row">
+                    <div class="span7 well">
+                        <h3><a href="{% url 'blog:detail' article.id %}">{{ article.title }}</a></h3>
+                        <p>{{ article.detail }}</p>
+                        <hr/>
+                        <div class="row">
+                            <div class="span3 text-left">
+                                <span>{{ article.pub_date }}</span>
+                            </div>
+                            <div class="span4 text-right">
+                                <a href="#">read(23)</a>
+                                <a href="{% url 'blog:comments' article.id %}">comment({{ article.comment_set.all.count }})</a>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <div id="span1">
+                </div>
+            {% endfor %}
+            {% endif %}
             </div>
 
-            <div id="span1">
+            <div class="span4">
+                <div class="nav-list well">
+                    <ul class="nav nav-list">
+                        <li class="nav-header">Category</li>
+                        <li class="active">
+                            <a href="#">Link</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        {% endfor %}
-        {% endif %}
         </div>
-
-        <div class="span4">
-            <div class="nav-list well">
-                <ul class="nav nav-list">
-                    <li class="nav-header">Category</li>
-                    <li class="active">
-                        <a href="#">Link</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    
-    <div class="row">
-        <div class="span8">
-            <div class="pagination pagination-large pagination-centered">
-                <ul>
-                    {% if article_list.has_previous %}
-                        <li><a href="?page={{ article_list.previous_page_number }}">&laquo;</a></li>
-                    {% else %}
-                        <li class="disabled"><a href="#">&laquo;</a></li>
-                    {% endif %}
-
-                    {% for page_num in pagenum_list %}                        
-                        {% if page_num == article_list.number %}
-                            <li class="active"><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+        
+        <div class="row">
+            <div class="span8">
+                <div class="pagination pagination-large pagination-centered">
+                    <ul>
+                        {% if article_list.has_previous %}
+                            <li><a href="?page={{ article_list.previous_page_number }}">&laquo;</a></li>
                         {% else %}
-                            <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                            <li class="disabled"><a href="#">&laquo;</a></li>
                         {% endif %}
-                    {% endfor %}
 
-                    {% if article_list.has_next %}
-                        <li><a href="?page={{ article_list.next_page_number }}">&raquo;</a></li>
-                    {% else %}
-                        <li class="disabled"><a href="#">&raquo;</a></li>
-                    {% endif %}
-                </ul>
-            </div>    
-        </div>
-        <div class="span4">
+                        {% for page_num in pagenum_list %}                        
+                            {% if page_num == article_list.number %}
+                                <li class="active"><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                            {% else %}
+                                <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if article_list.has_next %}
+                            <li><a href="?page={{ article_list.next_page_number }}">&raquo;</a></li>
+                        {% else %}
+                            <li class="disabled"><a href="#">&raquo;</a></li>
+                        {% endif %}
+                    </ul>
+                </div>    
+            </div>
+            <div class="span4">
+            </div>
         </div>
     </div>
-</div>
 </body>
 </html>
