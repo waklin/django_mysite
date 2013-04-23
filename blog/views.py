@@ -24,15 +24,8 @@ def index(request):
     while x <= paginator.num_pages:
         pagenum_list.append(x)
         x += 1
-        
-    return render_to_response('blog/index.html', {"article_list": article_list, "pagenum_list": pagenum_list})
 
-def detail(request, article_id):
-    art = get_object_or_404(Article, pk=article_id)
-    comment_list = art.comment_set.all()
-    return render_to_response('blog/detail.html', 
-                                {"article":art},
-                                context_instance=RequestContext(request))
+    return render_to_response('blog/index.html', {"article_list": article_list, "pagenum_list": pagenum_list})
 
 def comment_submit(request, article_id):
     #return HttpResponse("you are looking at comment_submit")
@@ -41,7 +34,7 @@ def comment_submit(request, article_id):
     comment.detail = request.POST['detail']
     comment.save()
     #return HttpResponseRedirect(reverse('blog:comments', kwargs={'pk':article_id}))
-    return HttpResponseRedirect(reverse('blog:detail', kwargs={'article_id': article_id}))
+    return HttpResponseRedirect(reverse('blog:detail', kwargs={'pk': article_id}))
 
 def bootstrap(request):
     return render(request, 'blog/bootstrap.html')

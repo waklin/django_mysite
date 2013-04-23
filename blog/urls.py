@@ -6,7 +6,11 @@ from blog import views
 urlpatterns = patterns('',
     url(r'^$', 'blog.views.index', name='index'),
 
-    url(r'^(?P<article_id>\d+)/$', 'blog.views.detail', name='detail'),
+    url(r'^(?P<pk>\d+)/$', 
+        DetailView.as_view(
+            model=Article,
+            template_name='blog/detail.html'),
+        name='detail'),
 
     url(r'^(?P<pk>\d+)/comments/$',
         DetailView.as_view(

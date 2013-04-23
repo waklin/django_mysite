@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- jQuery -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-<!-- Bootstrap -->
-{% load staticfiles %}
-<link href="{% static 'blog/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
-<script src="{% static 'blog/bootstrap/js/bootstrap.min.js' }%"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- jQuery -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    {% load staticfiles %}
+    <link href="{% static 'blog/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+    <script src="{% static 'blog/bootstrap/js/bootstrap.min.js' }%"></script>
 </head>
 <body style="background:gray">
+    <div class="navbar navbar-static-top">
+        <div class="navbar-inner">
+            <a class="brand" href="#">17Django</a>
+            <ul class="nav pull-right">
+                <li class="divider-vertical active"><a href="#">Home</a></li>
+                <li class="divider-vertical"><a href="#">Blog</a></li>
+                <li class="divider-vertical"><a href="#">Document</a></li>
+                <li class="divider-vertical"><a href="#">About</a></li>
+            </ul>
+        </div>
+    </div>
+    <br/>
     <div class="container">
         <div class="row">
             <div class="span8">
@@ -22,11 +34,11 @@
                         <hr/>
                         <div class="row">
                             <div class="span3 text-left">
-                                <span>{{ article.pub_date }}</span>
+                                <span><small>{{ article.pub_date }}</small></span>
                             </div>
                             <div class="span4 text-right">
-                                <a href="#">read(23)</a>
-                                <a href="{% url 'blog:comments' article.id %}">comment({{ article.comment_set.all.count }})</a>
+                                <a href="#"><small>read(23)</small></a>
+                                <a href="{% url 'blog:comments' article.id %}"><small>comment({{ article.comment_set.all.count }})</small></a>
                             </div>
                         </div>
                     </div>
@@ -52,7 +64,7 @@
         
         <div class="row">
             <div class="span8">
-                <div class="pagination pagination-large pagination-centered">
+                <div class="pagination pagination-centered">
                     <ul>
                         {% if article_list.has_previous %}
                             <li><a href="?page={{ article_list.previous_page_number }}">&laquo;</a></li>

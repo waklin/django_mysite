@@ -17,9 +17,10 @@
                     <div class="span8 well">
                         <form action="{% url 'blog:comment_submit' article.id %}" method="post">
                             {% csrf_token %}
-                            <textarea name="detail" rows="3" placeholder="type someting..." class="input-block-level"></textarea>
-                            <input type="submit" value="submit" />
-                        </form>                    
+                            <textarea name="detail" rows="3" placeholder="type something..." class="input-block-level"></textarea>
+                            <input class="pull-right" type="submit" value="submit" />
+                            <br />
+                        </form> 
                         {% if article.comment_set %}
                             {% for comment in article.comment_set.all %}
                             <p>{{ comment.detail }}</p>
