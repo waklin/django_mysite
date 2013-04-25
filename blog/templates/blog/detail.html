@@ -1,43 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- jQuery -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-<!-- Bootstrap -->
-{% load staticfiles %}
-<link href="{% static 'blog/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
-<script src="{% static 'blog/bootstrap/js/bootstrap.min.js' }%"></script>
-</head>
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="span8">
-                <div class="row">
-                    <div class="span8 well">
-                        <form action="{% url 'blog:comment_submit' article.id %}" method="post">
-                            {% csrf_token %}
-                            <textarea name="detail" rows="3" placeholder="type something..." class="input-block-level"></textarea>
-                            <input class="pull-right" type="submit" value="submit" />
-                            <br />
-                        </form> 
-                        {% if article.comment_set %}
-                            {% for comment in article.comment_set.all %}
-                            <p>{{ comment.detail }}</p>
-                            <p class="text-right"><small>2013-4-22 17:07</small></p>
-                                {% if not forloop.last %}
-                                <hr />
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+{% extends "blog/base_blog.html" %}
 
-            <div class="span4">
-                
-            </div>
+{% block content %}
+    <div class="row">
+        <div class="span8 well">
+            <form action="{% url 'blog:comment_submit' article.id %}" method="post">
+                {% csrf_token %}
+                <textarea name="detail" rows="3" placeholder="type something..." class="input-block-level"></textarea>
+                <input class="pull-right" type="submit" value="submit" />
+                <br />
+            </form> 
+            {% if article.comment_set %}
+                {% for comment in comment_list %}
+                <p>{{ comment.detail }}</p>
+                <p class="text-right"><small>{{ comment.pub_date }}</small></p>
+                    {% if not forloop.last %}
+                    <hr />
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </div>
-    </div>    
-</body>
-</html>
+    </div>
+{% endblock %}
