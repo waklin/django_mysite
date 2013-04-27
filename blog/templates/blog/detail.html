@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="row">
-        <div class="span8 well">
+        <div class="span8">
             <form action="{% url 'blog:comment_submit' article.id %}" method="post">
                 {% csrf_token %}
                 <textarea name="detail" rows="3" placeholder="type something..." class="input-block-level"></textarea>

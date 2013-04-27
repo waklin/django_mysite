@@ -35,8 +35,6 @@ def detail(request, article_id):
     return render_to_response('blog/detail.html', {'article':art, 'comment_list':comment_list},
                                 context_instance=RequestContext(request))
 
-    
-
 def comment_submit(request, article_id):
     art = get_object_or_404(Article, pk=article_id)
     comment = art.comment_set.create()
