@@ -1,5 +1,17 @@
 {% extends "blog/base_blog.html" %}
 
+{% block head %}
+    {{ block.super }}
+    <script>
+        $(document).ready(function(){
+                $("#comment").click(function(){
+                    }
+                )
+            }
+        )
+    </script>
+{% endblock %}
+
 {% block content %}
     {% if article_list %}
         {% for article in article_list%}
@@ -14,8 +26,17 @@
                         </div>
                         <div class="span4 text-right">
                             <a href="#"><small>read(23)</small></a>
-                            <a href="{% url 'blog:comments' article.id %}"><small>comment({{ article.comment_set.all.count }})</small></a>
+                            <a id="comment" href="#"><small>comment({{ article.comment_set.all.count }})</small></a>                            
                         </div>
+                    </div>
+
+                    <div id="comment-form disable">
+                        <form>
+                            {% csrf_token %}
+                            <textarea name="detail" rows="3" placeholder="type something..." class="input-block-level"></textarea>
+                            <input class="pull-right" type="submit" value="submit" />
+                            <br />
+                        </form> 
                     </div>
                 </div>
                 <div id="span1">
