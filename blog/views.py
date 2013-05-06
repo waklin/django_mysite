@@ -27,7 +27,9 @@ def index(request):
         pagenum_list.append(x)
         x += 1
 
-    return render_to_response('blog/index.html', {"article_list": article_list, "pagenum_list": pagenum_list})
+    return render_to_response('blog/index.html', 
+                                {"article_list": article_list, "pagenum_list": pagenum_list},
+                                context_instance=RequestContext(request))
 
 def detail(request, article_id):
     art = get_object_or_404(Article, pk=article_id)

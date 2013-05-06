@@ -4,11 +4,13 @@
     {{ block.super }}
     <script>
         $(document).ready(function(){
-                $("#comment").click(function(){
-                    }
-                )
-            }
-        )
+            $("div.comment").hide();            
+        })
+
+        function toggle_comment_form(obj)
+        {
+            $("#"+obj.id+"_form").toggle();
+        }
     </script>
 {% endblock %}
 
@@ -26,17 +28,18 @@
                         </div>
                         <div class="span4 text-right">
                             <a href="#"><small>read(23)</small></a>
-                            <a id="comment" href="#"><small>comment({{ article.comment_set.all.count }})</small></a>                            
+                            <a id="comment{{ forloop.counter }}" onclick="toggle_comment_form(this)" href="#"><small>comment({{ article.comment_set.all.count }})</small></a>
                         </div>
                     </div>
-
-                    <div id="comment-form disable">
-                        <form>
-                            {% csrf_token %}
-                            <textarea name="detail" rows="3" placeholder="type something..." class="input-block-level"></textarea>
-                            <input class="pull-right" type="submit" value="submit" />
-                            <br />
-                        </form> 
+                    <div class="row comment" id="comment{{ forloop.counter }}_form">
+                        <div class="span7">
+                            <form action="{% url 'blog:comment_submit' article.id %}" method="post">
+                                {% csrf_token %}
+                                <textarea name="detail" rows="3" placeholder="type something..." class="input-block-level"></textarea>
+                                <input class="pull-right" type="submit" value="submit" />
+                                <br />
+                            </form> 
+                        </div>
                     </div>
                 </div>
                 <div id="span1">
