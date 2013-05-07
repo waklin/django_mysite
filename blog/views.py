@@ -45,6 +45,14 @@ def comment_submit(request, article_id):
     comment.save()
     return HttpResponseRedirect(reverse('blog:detail', kwargs={'article_id': article_id}))
 
+def ajax(request, article_id):
+    art = get_object_or_404(Article, pk=article_id)
+    comment = art.comment_set.create()
+    comment.detail = request.GET['detail']
+    comment.pub_date = timezone.now()
+    comment.save()
+    return HttpResponse(art.comment_set.count())
+
 def bootstrap(request):
     return render(request, 'blog/bootstrap.html')
 

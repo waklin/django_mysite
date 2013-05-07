@@ -11,6 +11,29 @@
         {
             $("#"+obj.id+"_form").toggle();
         }
+
+        function loadXMLDoc(article_id)
+        {
+            var xmlhttp;
+            if (window.XMLHttpRequest)
+              {// code for IE7+, Firefox, Chrome, Opera, Safari
+              xmlhttp=new XMLHttpRequest();
+              }
+            else
+              {// code for IE6, IE5
+              xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+              }
+
+            xmlhttp.onreadystatechange=function()
+              {
+              if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                {
+                document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+                }
+              }
+            xmlhttp.open("GET","ajax/" + article_id +"/?detail=ajax", true);
+            xmlhttp.send();
+        }
     </script>
 {% endblock %}
 
@@ -33,12 +56,17 @@
                     </div>
                     <div class="row comment" id="comment{{ forloop.counter }}_form">
                         <div class="span7">
+                            <!--
                             <form action="{% url 'blog:comment_submit' article.id %}" method="post">
                                 {% csrf_token %}
                                 <textarea name="detail" rows="3" placeholder="type something..." class="input-block-level"></textarea>
                                 <input class="pull-right" type="submit" value="submit" />
                                 <br />
                             </form> 
+                            -->                            
+                            <button onclick="loadXMLDoc({{ article.id }})">Ajax</button>
+                            <div id="myDiv">
+                            </div>
                         </div>
                     </div>
                 </div>
