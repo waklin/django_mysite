@@ -3,36 +3,33 @@
 {% block head %}
     {{ block.super }}
     <script>
+        // keep comment_link's index
+        var link_index;
         $(document).ready(function(){
             $("div.comment").hide();            
         })
 
-        function toggle_comment_form(obj)
+        function toggle_comment_form(index)
         {
-            $("#"+obj.id+"_form").toggle();
+            link_index = index;
+            $("#comment_form"+link_index).toggle();
         }
 
-        function loadXMLDoc(article_id)
+        function loadXMLDoc(article_id, index)
         {
-            var xmlhttp;
-            if (window.XMLHttpRequest)
-              {// code for IE7+, Firefox, Chrome, Opera, Safari
-              xmlhttp=new XMLHttpRequest();
-              }
-            else
-              {// code for IE6, IE5
-              xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-              }
+            link_index = index;
+            var comment_detail = $("#comment_detail" + link_index).val();
+            //alert(comment_detail);
+            $.get("ajax/"+article_id+"/?detail="+comment_detail, 
+                    function(data, status)
+                    {
+                        alert("submit successful.");
 
-            xmlhttp.onreadystatechange=function()
-              {
-              if (xmlhttp.readyState==4 && xmlhttp.status==200)
-                {
-                document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
-                }
-              }
-            xmlhttp.open("GET","ajax/" + article_id +"/?detail=ajax", true);
-            xmlhttp.send();
+                        $("#comment_link" + link_index).html("comment("+data+")");
+                        $("#comment_detail" + link_index).val("");
+                        $("#comment_form"+link_index).hide();
+                    }
+            )
         }
     </script>
 {% endblock %}
@@ -51,10 +48,12 @@
                         </div>
                         <div class="span4 text-right">
                             <a href="#"><small>read(23)</small></a>
-                            <a id="comment{{ forloop.counter }}" onclick="toggle_comment_form(this)" href="#"><small>comment({{ article.comment_set.all.count }})</small></a>
+                            <a id="comment{{ forloop.counter }}" onclick="toggle_comment_form({{ forloop.counter }})" href="#">
+                                <small id="comment_link{{ forloop.counter }}">comment({{ article.comment_set.all.count }})</small>
+                            </a>
                         </div>
                     </div>
-                    <div class="row comment" id="comment{{ forloop.counter }}_form">
+                    <div class="row comment" id="comment_form{{ forloop.counter }}">
                         <div class="span7">
                             <!--
                             <form action="{% url 'blog:comment_submit' article.id %}" method="post">
@@ -63,10 +62,9 @@
                                 <input class="pull-right" type="submit" value="submit" />
                                 <br />
                             </form> 
-                            -->                            
-                            <button onclick="loadXMLDoc({{ article.id }})">Ajax</button>
-                            <div id="myDiv">
-                            </div>
+                            -->
+                            <textarea name="detail" rows="3" id="comment_detail{{ forloop.counter }}" placeholder="type something..." class="input-block-level"></textarea>
+                            <button class="pull-right" onclick="loadXMLDoc({{ article.id }}, {{ forloop.counter }})">Ajax</button>
                         </div>
                     </div>
                 </div>
