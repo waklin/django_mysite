@@ -17,4 +17,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^polls/', include('polls.urls', namespace='polls')),
     url(r'^blog/', include('blog.urls', namespace='blog')),
+    url(r'^$', 'login.views.index', name='login'),
 )
